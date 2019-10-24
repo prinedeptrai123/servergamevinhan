@@ -21,22 +21,22 @@ import org.springframework.web.multipart.MultipartFile;
  *
  * @author Qui
  */
-@Service
-public class FileService {
-
-    private final Path fileStorageLocation;
-
-    @Autowired
-    public FileService() throws IOException {
-        this.fileStorageLocation = Paths.get(UPLOAD_DIR).toAbsolutePath().normalize();
-        Files.createDirectories(this.fileStorageLocation);
-    }
-
-    public String storeFile(MultipartFile file) throws IOException {
-        String fileName = UUID.randomUUID().toString() + StringUtils.cleanPath(file.getOriginalFilename()).substring(file.getOriginalFilename().lastIndexOf("."));;
-//        String fileName = UUID.randomUUID().toString();
-        Path targetLocation = this.fileStorageLocation.resolve(fileName);
-        Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-        return fileName;
-    }
-}
+//@Service
+//public class FileService {
+//
+//    private final Path fileStorageLocation;
+//
+//    @Autowired
+//    public FileService() throws IOException {
+//        this.fileStorageLocation = Paths.get(UPLOAD_DIR).toAbsolutePath().normalize();
+//        Files.createDirectories(this.fileStorageLocation);
+//    }
+//
+//    public String storeFile(MultipartFile file) throws IOException {
+//        String fileName = UUID.randomUUID().toString() + StringUtils.cleanPath(file.getOriginalFilename()).substring(file.getOriginalFilename().lastIndexOf("."));;
+////        String fileName = UUID.randomUUID().toString();
+//        Path targetLocation = this.fileStorageLocation.resolve(fileName);
+//        Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+//        return fileName;
+//    }
+//}

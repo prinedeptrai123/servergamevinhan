@@ -131,7 +131,7 @@
         
     </dependencies>
     
-    <build>
+      <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -158,6 +158,7 @@
                     </execution>
                 </executions>
             </plugin>
+            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -173,8 +174,25 @@
                     </archive>
                 </configuration>
             </plugin>
+            
+            <plugin>
+                <groupId>io.ebean</groupId>
+                <artifactId>ebean-maven-plugin</artifactId>
+                <version>11.11.2</version>
+                <executions>
+                    <execution>
+                        <id>main</id>
+                        <phase>process-classes</phase>
+                        <configuration>
+                            <transformArgs>debug=1</transformArgs>
+                        </configuration>
+                        <goals>
+                            <goal>enhance</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
-        
         <resources>
             <resource>
                 <directory>src/main/resources</directory>

@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.vinhan.ptgameserver.constant.StatusCode;
 import com.vinhan.ptgameserver.db.StoreRepository;
 import com.vinhan.ptgameserver.entities.UserModel;
-import com.vinhan.ptgameserver.services.FileService;
 import com.vinhan.ptgameserver.services.UserService;
 import static com.vinhan.ptgameserver.utils.ConverterUtils.request2Json;
 import static com.vinhan.ptgameserver.utils.ConverterUtils.returnMap;
@@ -34,8 +33,8 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/api/map")
 public class MapController {
 
-    @Autowired
-    FileService fileService;
+//    @Autowired
+//    FileService fileService;
 
     @GetMapping(value = "/{id}", produces = "application/json")
     public String getMapOfUser(@PathVariable(name = "id") int id) {
@@ -58,7 +57,7 @@ public class MapController {
             System.out.println("clgtf");
 
             if (body.has("userId")) {
-                String url = fileService.storeFile(file);
+                //String url = fileService.storeFile(file);
                 
                 return ReponseUtils.succesDone();
 
