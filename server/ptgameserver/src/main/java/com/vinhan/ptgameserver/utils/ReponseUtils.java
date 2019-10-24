@@ -52,4 +52,18 @@ public class ReponseUtils {
         return node.toString();
     }
 
+    public static String Invalid() {
+        ObjectNode node = MAPPER.createObjectNode();
+        node.put(StatusCode.class.getSimpleName(), 400);
+        node.put("Response", "INVALID");
+        return node.toString();
+    }
+    
+    public static String Duplicate() {
+        ObjectNode node = MAPPER.createObjectNode();
+        node.put(StatusCode.class.getSimpleName(), 400);
+        node.put("Response", "DUPLICATE");
+        return node.toString();
+    }
+
 }

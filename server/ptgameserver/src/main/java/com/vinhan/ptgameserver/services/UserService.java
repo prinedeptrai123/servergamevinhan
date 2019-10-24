@@ -7,6 +7,10 @@ package com.vinhan.ptgameserver.services;
 
 import com.vinhan.ptgameserver.db.StoreRepository;
 import com.vinhan.ptgameserver.entities.UserModel;
+import com.vinhan.ptgameserver.mapclass.User;
+import java.util.ArrayList;
+import java.util.List;
+import org.dozer.DozerBeanMapper;
 import org.eclipse.jdt.internal.compiler.ast.TrueLiteral;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,6 +24,8 @@ public class UserService {
 
     @Autowired
     private StoreRepository storeRepository;
+
+    private final DozerBeanMapper mapper = new DozerBeanMapper();
 
     public UserModel login(String userName, String passWord) {
         UserModel result = null;
@@ -59,6 +65,22 @@ public class UserService {
 
         }
         return false;
+    }
+
+    public List<User> getAllUser() {
+        List<User> result = new ArrayList<User>();
+        try {
+            List<UserModel> db = storeRepository.query(UserModel.class).findList();
+            if (db.size() > 0) {
+                for (UserModel user : db) {
+                    User rs = mapper.map(user, User.class);
+                    result.add(rs);
+                }
+            }
+        } catch (Exception e) {
+
+        }
+        return result;
     }
 
 }

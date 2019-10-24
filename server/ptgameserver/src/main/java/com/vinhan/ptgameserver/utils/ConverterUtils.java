@@ -6,10 +6,13 @@
 package com.vinhan.ptgameserver.utils;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import static com.vinhan.ptgameserver.config.ConfigInfo.MAPPER;
 import com.vinhan.ptgameserver.entities.UserModel;
+import com.vinhan.ptgameserver.mapclass.User;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -35,6 +38,15 @@ public class ConverterUtils {
         return node;
     }
 
+    public static ObjectNode returnUser(User user) {
+        ObjectNode node = MAPPER.createObjectNode();
+        node.put("id", user.getId());
+        node.put("username", user.getUserName());
+        node.put("password", user.getPassWord());
+        node.put("map", user.getUrlMap());
+        return node;
+    }
+
     public static JsonNode request2Json(HttpServletRequest request) {
         try {
             String body = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
@@ -43,5 +55,13 @@ public class ConverterUtils {
             Logger.getLogger(ConverterUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+
+    public static ArrayNode returnListUser(List<User> list) {
+        ArrayNode node = MAPPER.createArrayNode();
+        for (User user : list) {
+            node.add(returnUser(user));
+        }
+        return node;
     }
 }

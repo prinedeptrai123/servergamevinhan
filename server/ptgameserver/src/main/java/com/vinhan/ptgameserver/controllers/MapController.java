@@ -35,8 +35,7 @@ public class MapController {
 
 //    @Autowired
 //    FileService fileService;
-
-    @GetMapping(value = "/{id}", produces = "application/json")
+    @GetMapping(value = "/{userId}", produces = "application/json")
     public String getMapOfUser(@PathVariable(name = "id") int id) {
         try {
 
@@ -49,16 +48,36 @@ public class MapController {
 
     @PostMapping(value = "/savefile", produces = "application/json")
     public String saveFileMap(HttpServletRequest request, @RequestParam("file") MultipartFile file) {
-        System.out.println("clgt");
 
         try {
             JsonNode body = request2Json(request);
             System.out.println(request.toString());
-            System.out.println("clgtf");
 
             if (body.has("userId")) {
                 //String url = fileService.storeFile(file);
-                
+
+                return ReponseUtils.succesDone();
+
+            } else {
+                return ReponseUtils.Failure();
+            }
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+
+        return ReponseUtils.ServerError();
+    }
+
+    @PostMapping(value = "/updateFile", produces = "application/json")
+    public String updateFileMap(HttpServletRequest request, @RequestParam("file") MultipartFile file) {
+
+        try {
+            JsonNode body = request2Json(request);
+            System.out.println(request.toString());
+
+            if (body.has("userId")) {
+                //String url = fileService.storeFile(file);
+
                 return ReponseUtils.succesDone();
 
             } else {
