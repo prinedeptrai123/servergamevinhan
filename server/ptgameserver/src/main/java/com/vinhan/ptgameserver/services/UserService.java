@@ -67,6 +67,18 @@ public class UserService {
         return false;
     }
 
+    public boolean isExistId(int userId) {
+        try {
+            UserModel db = storeRepository.findById(UserModel.class, userId);
+            if (db != null) {
+                return true;
+            }
+        } catch (Exception e) {
+
+        }
+        return false;
+    }
+
     public List<User> getAllUser() {
         List<User> result = new ArrayList<User>();
         try {

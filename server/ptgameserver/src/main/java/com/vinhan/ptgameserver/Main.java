@@ -6,9 +6,14 @@
 package com.vinhan.ptgameserver;
 
 import com.vinhan.ptgameserver.config.ConfigInfo;
+import com.vinhan.ptgameserver.storage.StorageProperties;
+import com.vinhan.ptgameserver.storage.StorageService;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
@@ -16,6 +21,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  * @author Qui
  */
 @SpringBootApplication
+@EnableConfigurationProperties(StorageProperties.class)
 public class Main {
 
     public static void main(String[] args) {
@@ -26,4 +32,5 @@ public class Main {
                 .build().run(args);
         System.err.println("start at: " + ConfigInfo.STATIC_SERVER);
     }
+
 }

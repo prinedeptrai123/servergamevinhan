@@ -56,6 +56,7 @@ public class UserController {
             if (body.has("username") && body.has("password")) {
                 String username = body.get("username").asText();
                 String password = body.get("password").asText();
+                System.out.println(password);
 
                 UserModel result = userService.login(username, password);
                 if (result != null) {

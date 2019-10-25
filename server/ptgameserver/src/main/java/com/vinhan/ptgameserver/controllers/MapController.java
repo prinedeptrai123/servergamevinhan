@@ -6,14 +6,18 @@
 package com.vinhan.ptgameserver.controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.vinhan.ptgameserver.config.ConfigInfo;
+import static com.vinhan.ptgameserver.config.ConfigInfo.URL_FORMAT;
 import com.vinhan.ptgameserver.constant.StatusCode;
 import com.vinhan.ptgameserver.db.StoreRepository;
 import com.vinhan.ptgameserver.entities.UserModel;
 import com.vinhan.ptgameserver.services.UserService;
+import com.vinhan.ptgameserver.storage.StorageService;
 import static com.vinhan.ptgameserver.utils.ConverterUtils.request2Json;
 import static com.vinhan.ptgameserver.utils.ConverterUtils.returnMap;
 import com.vinhan.ptgameserver.utils.ReponseUtils;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -33,8 +37,19 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/api/map")
 public class MapController {
 
-//    @Autowired
-//    FileService fileService;
+    private final String UPLOAD_URL = ConfigInfo.UPLOAD_URL;
+    private final String UPLOAD_FOLDER = ConfigInfo.UPLOAD_FOLDER;
+
+    private final StorageService storageService;
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    public MapController(StorageService storageService) {
+        this.storageService = storageService;
+    }
+
     @GetMapping(value = "/{userId}", produces = "application/json")
     public String getMapOfUser(@PathVariable(name = "id") int id) {
         try {
@@ -47,25 +62,42 @@ public class MapController {
     }
 
     @PostMapping(value = "/savefile", produces = "application/json")
-    public String saveFileMap(HttpServletRequest request, @RequestParam("file") MultipartFile file) {
+    public String saveFileMap( @RequestParam("file") MultipartFile file) {
 
-        try {
-            JsonNode body = request2Json(request);
-            System.out.println(request.toString());
-
-            if (body.has("userId")) {
-                //String url = fileService.storeFile(file);
-
+//        try {
+//            JsonNode body = request2Json(request);
+//            if (!body.has("userId")) {
+//                //check user
+//                boolean isExist = userService.isExistId(body.get("userId").asInt());
+//                if (!isExist) {
+//                    return ReponseUtils.NotFound();
+//                }
+//                //store file
+//                if (!file.getOriginalFilename().isEmpty()) {
+//                    String fileExtension = FilenameUtils.getExtension(file.getOriginalFilename());
+//                    String fileName = String.format(URL_FORMAT, 1, fileExtension);
+//                    storageService.storeWithFileName(file, fileName);
+//                }
+//                return ReponseUtils.succesDone();
+//
+//            } else {
+//                return ReponseUtils.Failure();
+//            }
+//
+//        } catch (Exception e) {
+//            System.err.println(e);
+//        }
+        
+        //store file
+                if (!file.getOriginalFilename().isEmpty()) {
+                    String fileExtension = FilenameUtils.getExtension(file.getOriginalFilename());
+                    String fileName = String.format(URL_FORMAT, 1, fileExtension);
+                    storageService.storeWithFileName(file, fileName);
+                }
                 return ReponseUtils.succesDone();
+        
 
-            } else {
-                return ReponseUtils.Failure();
-            }
-        } catch (Exception e) {
-            System.err.println(e);
-        }
-
-        return ReponseUtils.ServerError();
+        //return ReponseUtils.ServerError();
     }
 
     @PostMapping(value = "/updateFile", produces = "application/json")
