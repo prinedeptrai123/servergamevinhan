@@ -56,7 +56,7 @@ public class MapController {
     }
 
     @GetMapping(value = "/{userId}", produces = "application/json")
-    public String getMapOfUser(@PathVariable(name = "id") int id) {
+    public String getMapOfUser(@PathVariable(name = "userId") int userId) {
         try {
 
             return ReponseUtils.succesDone();
@@ -67,7 +67,7 @@ public class MapController {
     }
 
     @PostMapping(value = "/savefile-{userId}", produces = "application/json")
-    public String saveFileMap(@PathVariable int userId, @RequestParam("file") MultipartFile file) {
+    public String saveFileMap(@PathVariable(name = "userId") int userId, @RequestParam("file") MultipartFile file) {
 
         try {
             boolean isExist = userService.isExistId(userId);
@@ -95,13 +95,12 @@ public class MapController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable int userId, HttpServletRequest request) {
-
+    public ResponseEntity<Resource> downloadFile(@PathVariable(name = "userId") int userId, HttpServletRequest request) {
         boolean isExist = userService.isExistId(userId);
         String fileName = DEFAULT_MAP;
 
         if (isExist) {
-            fileName = String.format(URL_FORMAT, userId, "png");
+            fileName = String.format(URL_FORMAT, userId, "DAT");
         } else {
             //do nothing
         }
@@ -113,7 +112,6 @@ public class MapController {
         String contentType = null;
         try {
             contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-            System.out.println(contentType);
         } catch (IOException ex) {
         }
 

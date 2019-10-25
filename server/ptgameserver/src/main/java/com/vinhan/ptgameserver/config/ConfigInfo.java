@@ -36,7 +36,7 @@ public class ConfigInfo {
 
     public static final String URL_FORMAT = "map-%s.%s";
 
-    public static final String DEFAULT_MAP = "map-0.bin";
+    public static final String DEFAULT_MAP = "map-0.DAT";
     public static final String URL_DEFAULT_MAP = UPLOAD_FOLDER + DEFAULT_MAP;
 
 }
