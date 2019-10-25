@@ -8,6 +8,7 @@ package com.vinhan.ptgameserver.services;
 import com.vinhan.ptgameserver.db.StoreRepository;
 import com.vinhan.ptgameserver.entities.UserModel;
 import com.vinhan.ptgameserver.mapclass.User;
+import io.ebean.Model;
 import java.util.ArrayList;
 import java.util.List;
 import org.dozer.DozerBeanMapper;
@@ -93,6 +94,20 @@ public class UserService {
 
         }
         return result;
+    }
+
+    public boolean updateUrlMap(int userId, String url) {
+        try {
+            UserModel db = storeRepository.findById(UserModel.class, userId);
+            if (db != null) {
+                db.setUrlMap(url);
+                storeRepository.save(db);
+                return true;
+            }
+        } catch (Exception e) {
+        }
+
+        return false;
     }
 
 }

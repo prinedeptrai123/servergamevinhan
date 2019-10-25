@@ -29,6 +29,6 @@ public class User {
     @ApiModelProperty(example = "123456789")
     String passWord;
 
-    @ApiModelProperty(example = "/upload/aaa.bin")
+    @ApiModelProperty(example = "nothing")
     String urlMap;
 }

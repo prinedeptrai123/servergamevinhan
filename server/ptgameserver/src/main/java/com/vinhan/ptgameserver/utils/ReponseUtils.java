@@ -37,6 +37,13 @@ public class ReponseUtils {
         node.set("Response", null);
         return node.toString();
     }
+    
+    public static String NotFoundString() {
+        ObjectNode node = MAPPER.createObjectNode();
+        node.put(StatusCode.class.getSimpleName(), 404);
+        node.put("Response", "NOTFOUND");
+        return node.toString();
+    }
 
     public static String succesDone() {
         ObjectNode node = MAPPER.createObjectNode();
