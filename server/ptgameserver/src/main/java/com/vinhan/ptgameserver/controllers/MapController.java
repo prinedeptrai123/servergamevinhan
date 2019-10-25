@@ -94,8 +94,18 @@ public class MapController {
         return ReponseUtils.ServerError();
     }
 
-    @GetMapping("/downloadFile/{fileName:.+}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
+    @GetMapping("/{userId}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable int userId, HttpServletRequest request) {
+
+        boolean isExist = userService.isExistId(userId);
+        String fileName = DEFAULT_MAP;
+
+        if (isExist) {
+            fileName = String.format(URL_FORMAT, userId, "png");
+        } else {
+            //do nothing
+        }
+        //get fileName
         // Load file as Resource
         Resource resource = storageService.loadAsResource(fileName);
 
@@ -103,10 +113,10 @@ public class MapController {
         String contentType = null;
         try {
             contentType = request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+            System.out.println(contentType);
         } catch (IOException ex) {
         }
 
-        // Fallback to the default content type if type could not be determined
         if (contentType == null) {
             contentType = "application/octet-stream";
         }
@@ -115,5 +125,6 @@ public class MapController {
                 .contentType(MediaType.parseMediaType(contentType))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
+
     }
 }
