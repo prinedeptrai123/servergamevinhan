@@ -103,4 +103,79 @@ public class UserController {
         }
         return ReponseUtils.ServerError();
     }
+    
+    @ApiOperation(value = "Thêm kinh nghiệm")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "request", value = "request", required = true, dataType = "SWRQaddExperience", paramType = "body"),})
+    @PostMapping(value = "/experience", produces = "application/json")
+    public String addExperience(HttpServletRequest request) {
+        try {
+            JsonNode body = request2Json(request);
+            if (body.has("userID") && body.has("exp")) {
+                int userID = body.get("userID").asInt();
+                double exp = body.get("exp").asDouble();
+                
+                UserModel result = userService.levelUP(userID, exp);
+                if (result != null) {
+                    return ReponseUtils.success(StatusCode.SUCCESS, returnUser(result));
+                } else {
+                    return ReponseUtils.NotFound();
+                }
+            }
+            
+        } catch (Exception e) {
+            
+        }
+        return ReponseUtils.ServerError();
+    }
+    
+    @ApiOperation(value = "Thêm tiền")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "request", value = "request", required = true, dataType = "SWRQaddCoin", paramType = "body"),})
+    @PostMapping(value = "/add-coin", produces = "application/json")
+    public String addCoin(HttpServletRequest request) {
+        try {
+            JsonNode body = request2Json(request);
+            if (body.has("userID") && body.has("coin")) {
+                int userID = body.get("userID").asInt();
+                int coin = body.get("coin").asInt();
+                
+                UserModel result = userService.increaseCoin(userID, coin);
+                if (result != null) {
+                    return ReponseUtils.success(StatusCode.SUCCESS, returnUser(result));
+                } else {
+                    return ReponseUtils.NotFound();
+                }
+            }
+            
+        } catch (Exception e) {
+            
+        }
+        return ReponseUtils.ServerError();
+    }
+    
+    @ApiOperation(value = "Trừ tiền")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "request", value = "request", required = true, dataType = "SWRQaddCoin", paramType = "body"),})
+    @PostMapping(value = "/decrease-coin", produces = "application/json")
+    public String decreaseCoin(HttpServletRequest request) {
+        try {
+            JsonNode body = request2Json(request);
+            if (body.has("userID") && body.has("coin")) {
+                int userID = body.get("userID").asInt();
+                int coin = body.get("coin").asInt();
+                
+                UserModel result = userService.decreaseCoin(userID, coin);
+                if (result != null) {
+                    return ReponseUtils.success(StatusCode.SUCCESS, returnUser(result));
+                } else {
+                    return ReponseUtils.NotFound();
+                }
+            }
+            
+        } catch (Exception e) {
+            
+        }
+        return ReponseUtils.ServerError();
+    }
 }

@@ -7,6 +7,10 @@ package com.vinhan.ptgameserver.config;
 
 import com.fasterxml.classmate.TypeResolver;
 import static com.google.common.collect.Lists.newArrayList;
+import com.vinhan.ptgameserver.swaggers.ApplicationProperties;
+import com.vinhan.ptgameserver.swaggers.SWRQaddCoin;
+import com.vinhan.ptgameserver.swaggers.SWRQaddExperience;
+import com.vinhan.ptgameserver.swaggers.SWRQdeacreaseBuilding;
 import com.vinhan.ptgameserver.swaggers.SWRQlogin;
 import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +71,13 @@ public class SwaggerConfig {
                 .securitySchemes(newArrayList(apiKey()))
                 .tags(new Tag("GAME SERVICE", "All API GAME SERVICE"));
 
-        docket.additionalModels(typeResolver.resolve(SWRQlogin.class)
+        docket.groupName("featureService")
+                .useDefaultResponseMessages(false)
+                .additionalModels(typeResolver.resolve(SWRQlogin.class),
+                typeResolver.resolve(SWRQaddExperience.class),
+                typeResolver.resolve(SWRQaddCoin.class),
+                typeResolver.resolve(SWRQdeacreaseBuilding.class),
+                typeResolver.resolve(ApplicationProperties.class)
         );
 
         return docket;

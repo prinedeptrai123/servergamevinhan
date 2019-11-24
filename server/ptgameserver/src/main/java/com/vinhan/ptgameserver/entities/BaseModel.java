@@ -34,4 +34,6 @@ public class BaseModel {
     Instant updateTime;
     boolean deleteFlag;
     boolean defaultFlag;
+    
+   
 }

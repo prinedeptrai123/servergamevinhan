@@ -22,17 +22,19 @@ import lombok.experimental.FieldDefaults;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "db_user")
-public class UserModel extends BaseModel {
-    String userName;
-    String passWord;
-    String urlMap;
-    double currentExperience;
-    int level;
-    int coin;
-    
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL, CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
-    private List<MUserTrooper> mUserTroopers;
+@Table(name = "db_building")
+public class BuildingModel extends BaseModel{
+    String name;
+    Double price;
+    double buildTime;
+    int type;
+    int hp;
+    double dame;
+    //sức chứa
+    double capacity;
+    double speed;
+    //tầm bắn
+    double rangeAttack;
     
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL, CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private List<MUserBuilding> mUserBuildings;

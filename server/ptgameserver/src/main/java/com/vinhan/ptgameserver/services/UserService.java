@@ -5,6 +5,8 @@
  */
 package com.vinhan.ptgameserver.services;
 
+import static com.vinhan.ptgameserver.config.ConfigInfo.LEVEL_EXP;
+import static com.vinhan.ptgameserver.config.ConfigInfo.LEVEL_EXP_UP_RATIO;
 import com.vinhan.ptgameserver.db.StoreRepository;
 import com.vinhan.ptgameserver.entities.UserModel;
 import com.vinhan.ptgameserver.mapclass.User;
@@ -108,6 +110,63 @@ public class UserService {
         }
 
         return false;
+    }
+
+    public UserModel levelUP(int userID, double experience) {
+        try {
+            UserModel db = storeRepository.findById(UserModel.class, userID);
+            if (db != null) {
+                double currentExperience = db.getCurrentExperience();
+                int currentLevel = db.getLevel();
+                double levelUpEXP = LEVEL_EXP *Math.pow((1+LEVEL_EXP_UP_RATIO), currentLevel-1);
+
+                if (currentExperience + experience < levelUpEXP) {
+                    db.setCurrentExperience(currentExperience + experience);
+                } else {
+                    db.setLevel(currentLevel + 1);
+                    db.setCurrentExperience(currentExperience + experience - levelUpEXP);
+                }
+                storeRepository.save(db);
+
+                return db;
+            }
+        } catch (Exception e) {
+
+        }
+
+        return null;
+    }
+
+    public UserModel increaseCoin(int userID, int coin) {
+        try {
+            UserModel db = storeRepository.findById(UserModel.class, userID);
+            if (db != null) {
+                int currenCoin = db.getCoin();
+                db.setCoin(currenCoin + coin);
+                storeRepository.save(db);
+                return db;
+            }
+        } catch (Exception e) {
+        }
+
+        return null;
+    }
+
+    public UserModel decreaseCoin(int userID, int coin) {
+        try {
+            UserModel db = storeRepository.findById(UserModel.class, userID);
+            if (db != null) {
+                int currenCoin = db.getCoin();
+                if (currenCoin - coin > 0) {
+                    db.setCoin(currenCoin - coin);
+                    storeRepository.save(db);
+                    return db;
+                }
+            }
+        } catch (Exception e) {
+        }
+
+        return null;
     }
 
 }

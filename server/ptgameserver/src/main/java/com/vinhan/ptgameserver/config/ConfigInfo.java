@@ -39,4 +39,10 @@ public class ConfigInfo {
     public static final String DEFAULT_MAP = "map-0.DAT";
     public static final String URL_DEFAULT_MAP = UPLOAD_FOLDER + DEFAULT_MAP;
 
+    public static final double LEVEL_EXP = 100;
+    public static final double LEVEL_EXP_UP_RATIO = 0.1;
+
+    public static final int LINH_DANH_GAN = 1;
+    public static final int LINH_DANH_XA = 2;
+    public static final int LINH_XAY_NHA = 0;
 }
