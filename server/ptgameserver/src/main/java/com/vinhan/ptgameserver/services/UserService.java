@@ -8,6 +8,7 @@ package com.vinhan.ptgameserver.services;
 import static com.vinhan.ptgameserver.config.ConfigInfo.LEVEL_EXP;
 import static com.vinhan.ptgameserver.config.ConfigInfo.LEVEL_EXP_UP_RATIO;
 import com.vinhan.ptgameserver.db.StoreRepository;
+import com.vinhan.ptgameserver.entities.MUserTrooper;
 import com.vinhan.ptgameserver.entities.UserModel;
 import com.vinhan.ptgameserver.mapclass.User;
 import io.ebean.Model;
@@ -30,15 +31,28 @@ public class UserService {
 
     private final DozerBeanMapper mapper = new DozerBeanMapper();
 
-    public UserModel login(String userName, String passWord) {
-        UserModel result = null;
+    public User login(String userName, String passWord) {
+        User result = null;
         try {
-            result = storeRepository.query(UserModel.class)
+            UserModel db = storeRepository.query(UserModel.class)
                     .where()
                     .and()
                     .eq("user_name", userName)
                     .eq("pass_word", passWord)
                     .findOne();
+            if(db!=null){
+                int currentLevel = db.getLevel();
+                double levelUpEXP = LEVEL_EXP *Math.pow((1+LEVEL_EXP_UP_RATIO), currentLevel-1);
+                
+                result = mapper.map(db, User.class);
+                int trooperCount = db.getMUserTroopers().stream().mapToInt(x->x.getCount()).sum();
+                int buildingCount = db.getMUserBuildings().stream().mapToInt(x->x.getCount()).sum();
+                result.setBuilding(buildingCount);
+                result.setTrooper(trooperCount);
+                result.setMaxExperience(levelUpEXP);
+                result.setDynamon(5000);
+            }
+             
         } catch (Exception e) {
 
         }

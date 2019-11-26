@@ -17,18 +17,17 @@ import lombok.experimental.FieldDefaults;
  */
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@ApiModel(value = "User", description = "user")
 public class User {
 
-    @ApiModelProperty(example = "1",readOnly = true)
     int id;
-
-    @ApiModelProperty(example = "lecongluan")
     String userName;
-
-    @ApiModelProperty(example = "123456789")
     String passWord;
-
-    @ApiModelProperty(example = "nothing")
     String urlMap;
+    double currentExperience;
+    double maxExperience;
+    int level;
+    int coin;
+    int trooper;
+    int building;
+    int dynamon;
 }

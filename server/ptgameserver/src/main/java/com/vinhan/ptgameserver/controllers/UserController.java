@@ -58,7 +58,7 @@ public class UserController {
                 String username = body.get("username").asText();
                 String password = body.get("password").asText();
                 
-                UserModel result = userService.login(username, password);
+                User result = userService.login(username, password);
                 if (result != null) {
                     return ReponseUtils.success(StatusCode.SUCCESS, returnUser(result));
                 } else {

@@ -48,10 +48,18 @@ public class ConverterUtils {
 
     public static ObjectNode returnUser(User user) {
         ObjectNode node = MAPPER.createObjectNode();
+        node.put("password", user.getPassWord());
         node.put("id", user.getId());
         node.put("username", user.getUserName());
-        node.put("password", user.getPassWord());
         node.put("map", user.getUrlMap());
+        node.put("coin", user.getCoin());
+        node.put("level", user.getLevel());
+        node.put("exp", user.getCurrentExperience());
+        node.put("dynamon", user.getDynamon());
+        node.put("trooper", user.getTrooper());
+        node.put("maxExp", user.getMaxExperience());
+        node.put("building", user.getBuilding());
+
         return node;
     }
 
@@ -85,7 +93,7 @@ public class ConverterUtils {
         node.put("type", trooper.getType());
         node.put("rangeAttack", trooper.getRangeAttack());
         node.put("speedAttack", trooper.getSpeedAttack());
-        
+
         return node;
     }
 
