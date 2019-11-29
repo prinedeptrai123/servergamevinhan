@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,15 +39,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
-    
+
     @Autowired
     UserService userService;
-    
+
     @Autowired
     ValidateRule validateRule;
-    
+
     private final DozerBeanMapper mapper = new DozerBeanMapper();
-    
+
     @ApiOperation(value = "Login")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "request", value = "request", required = true, dataType = "SWRQlogin", paramType = "body"),})
@@ -57,7 +58,7 @@ public class UserController {
             if (body.has("username") && body.has("password")) {
                 String username = body.get("username").asText();
                 String password = body.get("password").asText();
-                
+
                 User result = userService.login(username, password);
                 if (result != null) {
                     return ReponseUtils.success(StatusCode.SUCCESS, returnUser(result));
@@ -65,13 +66,51 @@ public class UserController {
                     return ReponseUtils.NotFound();
                 }
             }
-            
+
         } catch (Exception e) {
-            
+
         }
         return ReponseUtils.ServerError();
     }
-    
+
+    @GetMapping(value = "/{userId}/info", produces = "application/json")
+    public String getUserInfo(@PathVariable(name = "userId") int userId) {
+        try {
+            User result = userService.getInfo(userId);
+            if (result != null) {
+                return ReponseUtils.success(StatusCode.SUCCESS, returnUser(result));
+            } else {
+                return ReponseUtils.NotFound();
+            }
+        } catch (Exception e) {
+
+        }
+        return ReponseUtils.ServerError();
+    }
+
+    @ApiOperation(value = "Random user khi attack")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "request", value = "request", required = true, dataType = "RQRandomUser", paramType = "body"),})
+    @PostMapping(value = "/random", produces = "application/json")
+    public String randomUser(HttpServletRequest request) {
+        try {
+            JsonNode body = request2Json(request);
+            if (body.has("userID")) {
+                int userId = body.get("userID").asInt();
+                User result = userService.randomUser(userId);
+                if (result != null) {
+                    return ReponseUtils.success(StatusCode.SUCCESS, returnUser(result));
+                } else {
+                    return ReponseUtils.NotFound();
+                }
+            }
+
+        } catch (Exception e) {
+
+        }
+        return ReponseUtils.ServerError();
+    }
+
     @PostMapping(value = "/register", produces = "application/json")
     public String registerAccount(@RequestBody User user) {
         try {
@@ -88,22 +127,22 @@ public class UserController {
                 return ReponseUtils.succesDone();
             }
         } catch (Exception e) {
-            
+
         }
         return ReponseUtils.ServerError();
     }
-    
+
     @GetMapping(value = "/allaccount", produces = "application/json")
     public String getAllAcount() {
         try {
             List<User> rs = userService.getAllUser();
             return ReponseUtils.success(StatusCode.SUCCESS, returnListUser(rs));
         } catch (Exception e) {
-            
+
         }
         return ReponseUtils.ServerError();
     }
-    
+
     @ApiOperation(value = "Thêm kinh nghiệm")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "request", value = "request", required = true, dataType = "SWRQaddExperience", paramType = "body"),})
@@ -114,7 +153,7 @@ public class UserController {
             if (body.has("userID") && body.has("exp")) {
                 int userID = body.get("userID").asInt();
                 double exp = body.get("exp").asDouble();
-                
+
                 UserModel result = userService.levelUP(userID, exp);
                 if (result != null) {
                     return ReponseUtils.success(StatusCode.SUCCESS, returnUser(result));
@@ -122,13 +161,13 @@ public class UserController {
                     return ReponseUtils.NotFound();
                 }
             }
-            
+
         } catch (Exception e) {
-            
+
         }
         return ReponseUtils.ServerError();
     }
-    
+
     @ApiOperation(value = "Thêm tiền")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "request", value = "request", required = true, dataType = "SWRQaddCoin", paramType = "body"),})
@@ -139,7 +178,7 @@ public class UserController {
             if (body.has("userID") && body.has("coin")) {
                 int userID = body.get("userID").asInt();
                 int coin = body.get("coin").asInt();
-                
+
                 UserModel result = userService.increaseCoin(userID, coin);
                 if (result != null) {
                     return ReponseUtils.success(StatusCode.SUCCESS, returnUser(result));
@@ -147,13 +186,13 @@ public class UserController {
                     return ReponseUtils.NotFound();
                 }
             }
-            
+
         } catch (Exception e) {
-            
+
         }
         return ReponseUtils.ServerError();
     }
-    
+
     @ApiOperation(value = "Trừ tiền")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "request", value = "request", required = true, dataType = "SWRQaddCoin", paramType = "body"),})
@@ -164,7 +203,7 @@ public class UserController {
             if (body.has("userID") && body.has("coin")) {
                 int userID = body.get("userID").asInt();
                 int coin = body.get("coin").asInt();
-                
+
                 UserModel result = userService.decreaseCoin(userID, coin);
                 if (result != null) {
                     return ReponseUtils.success(StatusCode.SUCCESS, returnUser(result));
@@ -172,9 +211,9 @@ public class UserController {
                     return ReponseUtils.NotFound();
                 }
             }
-            
+
         } catch (Exception e) {
-            
+
         }
         return ReponseUtils.ServerError();
     }

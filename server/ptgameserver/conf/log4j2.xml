@@ -2,7 +2,7 @@
 <Configuration status="WARN" monitorInterval="30">
     <Properties>
         <Property name="LOG_PATTERN">
-            %d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${hostName} --- [%15.15t] %-40.40c{1.} : %m%n%ex
+            %d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${hostName} : %m%n%ex
         </Property>
     </Properties>
 
@@ -10,8 +10,8 @@
         <Console name="ConsoleAppender" target="SYSTEM_OUT" follow="true">
             <PatternLayout pattern="${LOG_PATTERN}"/>
         </Console>
-        <RollingFile name="Controller" fileName="/home/qui/java_proj/football/deploy/api/logs/controller-log.log"
-                     filePattern="/home/qui/java_proj/football/deploy/api/logs/controller-log-%d{yyyy-MM-dd}-%i.log">
+        <RollingFile name="Controller" fileName="logs/controller-log.log"
+                     filePattern="logs/controller-log-%d{yyyy-MM-dd}-%i.log">
             <PatternLayout>
                 <Pattern>${LOG_PATTERN}</Pattern>
             </PatternLayout>

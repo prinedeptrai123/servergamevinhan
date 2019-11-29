@@ -8,6 +8,7 @@ package com.vinhan.ptgameserver.config;
 import com.fasterxml.classmate.TypeResolver;
 import static com.google.common.collect.Lists.newArrayList;
 import com.vinhan.ptgameserver.swaggers.ApplicationProperties;
+import com.vinhan.ptgameserver.swaggers.RQRandomUser;
 import com.vinhan.ptgameserver.swaggers.SWRQaddCoin;
 import com.vinhan.ptgameserver.swaggers.SWRQaddExperience;
 import com.vinhan.ptgameserver.swaggers.SWRQdeacreaseBuilding;
@@ -77,7 +78,8 @@ public class SwaggerConfig {
                 typeResolver.resolve(SWRQaddExperience.class),
                 typeResolver.resolve(SWRQaddCoin.class),
                 typeResolver.resolve(SWRQdeacreaseBuilding.class),
-                typeResolver.resolve(ApplicationProperties.class)
+                typeResolver.resolve(ApplicationProperties.class),
+                typeResolver.resolve(RQRandomUser.class)
         );
 
         return docket;

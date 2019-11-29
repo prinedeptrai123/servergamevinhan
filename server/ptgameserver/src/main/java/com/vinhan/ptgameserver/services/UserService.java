@@ -40,19 +40,42 @@ public class UserService {
                     .eq("user_name", userName)
                     .eq("pass_word", passWord)
                     .findOne();
-            if(db!=null){
+            if (db != null) {
                 int currentLevel = db.getLevel();
-                double levelUpEXP = LEVEL_EXP *Math.pow((1+LEVEL_EXP_UP_RATIO), currentLevel-1);
-                
+                double levelUpEXP = LEVEL_EXP * Math.pow((1 + LEVEL_EXP_UP_RATIO), currentLevel - 1);
+
                 result = mapper.map(db, User.class);
-                int trooperCount = db.getMUserTroopers().stream().mapToInt(x->x.getCount()).sum();
-                int buildingCount = db.getMUserBuildings().stream().mapToInt(x->x.getCount()).sum();
+                int trooperCount = db.getMUserTroopers().stream().mapToInt(x -> x.getCount()).sum();
+                int buildingCount = db.getMUserBuildings().stream().mapToInt(x -> x.getCount()).sum();
                 result.setBuilding(buildingCount);
                 result.setTrooper(trooperCount);
                 result.setMaxExperience(levelUpEXP);
                 result.setDynamon(5000);
             }
-             
+
+        } catch (Exception e) {
+
+        }
+        return result;
+    }
+
+    public User getInfo(int userID) {
+        User result = null;
+        try {
+            UserModel db = storeRepository.findById(UserModel.class, userID);
+            if (db != null) {
+                int currentLevel = db.getLevel();
+                double levelUpEXP = LEVEL_EXP * Math.pow((1 + LEVEL_EXP_UP_RATIO), currentLevel - 1);
+
+                result = mapper.map(db, User.class);
+                int trooperCount = db.getMUserTroopers().stream().mapToInt(x -> x.getCount()).sum();
+                int buildingCount = db.getMUserBuildings().stream().mapToInt(x -> x.getCount()).sum();
+                result.setBuilding(buildingCount);
+                result.setTrooper(trooperCount);
+                result.setMaxExperience(levelUpEXP);
+                result.setDynamon(5000);
+            }
+
         } catch (Exception e) {
 
         }
@@ -132,7 +155,7 @@ public class UserService {
             if (db != null) {
                 double currentExperience = db.getCurrentExperience();
                 int currentLevel = db.getLevel();
-                double levelUpEXP = LEVEL_EXP *Math.pow((1+LEVEL_EXP_UP_RATIO), currentLevel-1);
+                double levelUpEXP = LEVEL_EXP * Math.pow((1 + LEVEL_EXP_UP_RATIO), currentLevel - 1);
 
                 if (currentExperience + experience < levelUpEXP) {
                     db.setCurrentExperience(currentExperience + experience);
@@ -181,6 +204,30 @@ public class UserService {
         }
 
         return null;
+    }
+
+    public User randomUser(int userId) {
+        User result = null;
+        try {
+            String nativeQuerry = "SELECT * FROM qui_small_data.db_user where id <> ? ORDER BY RAND() LIMIT 1";
+            UserModel db = storeRepository.findNative(UserModel.class, nativeQuerry).setParameter(1,userId).findOne();
+            if (db != null) {
+                int currentLevel = db.getLevel();
+                double levelUpEXP = LEVEL_EXP * Math.pow((1 + LEVEL_EXP_UP_RATIO), currentLevel - 1);
+
+                result = mapper.map(db, User.class);
+                int trooperCount = db.getMUserTroopers().stream().mapToInt(x -> x.getCount()).sum();
+                int buildingCount = db.getMUserBuildings().stream().mapToInt(x -> x.getCount()).sum();
+                result.setBuilding(buildingCount);
+                result.setTrooper(trooperCount);
+                result.setMaxExperience(levelUpEXP);
+                result.setDynamon(5000);
+            }
+
+        } catch (Exception e) {
+
+        }
+        return result;
     }
 
 }
