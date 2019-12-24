@@ -1,0 +1,4 @@
+ERROR [qtp1614649236-1392] 2019-12-20 17:46:33,968 ELKController.java (line 50) teso 1
+ERROR [qtp1614649236-1389] 2019-12-20 17:46:43,090 ELKController.java (line 50) teso 2
+ERROR [qtp1614649236-1392] 2019-12-20 17:46:55,822 ELKController.java (line 66) type1 teso  struct2
+ERROR [qtp1614649236-1389] 2019-12-20 17:46:56,868 ELKController.java (line 66) type1 teso  struct3
