@@ -25,8 +25,8 @@ public class VeneMQ {
     String topic = "MQTT Examples";
     String content = "Message from MqttPublishSample";
     int qos = 2;
-    String broker = "tcp:127.0.0.1:1883";
-    String clientId = "JavaSample";
+    String broker = "tcp://quicorp.tk:8888";
+    String clientId = "qui";
     MemoryPersistence persistence = new MemoryPersistence();
 
     @ApiOperation(value = "Testing venemq")
