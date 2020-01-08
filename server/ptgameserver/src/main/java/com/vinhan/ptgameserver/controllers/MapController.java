@@ -8,6 +8,7 @@ package com.vinhan.ptgameserver.controllers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.vinhan.ptgameserver.config.ConfigInfo;
 import static com.vinhan.ptgameserver.config.ConfigInfo.DEFAULT_MAP;
+import static com.vinhan.ptgameserver.config.ConfigInfo.FULL_MAP_URL;
 import static com.vinhan.ptgameserver.config.ConfigInfo.UPLOAD_FOLDER;
 import static com.vinhan.ptgameserver.config.ConfigInfo.URL_FORMAT;
 import com.vinhan.ptgameserver.constant.StatusCode;
@@ -100,6 +101,14 @@ public class MapController {
         String fileName = DEFAULT_MAP;
 
         if (isExist) {
+            //check if new user
+            boolean isNew = userService.isNewUser(userId);
+            if (isNew) {
+                fileName = String.format(URL_FORMAT, 0, "DAT");
+                //update url
+                
+                //userService.updateUrlMap(userId, String.format(FULL_MAP_URL, userId));
+            }
             fileName = String.format(URL_FORMAT, userId, "DAT");
         } else {
             //do nothing
@@ -123,6 +132,5 @@ public class MapController {
                 .contentType(MediaType.parseMediaType(contentType))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
-
     }
 }

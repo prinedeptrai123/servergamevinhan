@@ -25,7 +25,7 @@ public class VeneMQ {
     String topic = "MQTT Examples";
     String content = "Message from MqttPublishSample";
     int qos = 2;
-    String broker = "tcp://quicorp.tk:8888";
+    String broker = "tcp://localhost:1883";
     String clientId = "qui";
     MemoryPersistence persistence = new MemoryPersistence();
 

@@ -35,6 +35,8 @@ public class ConfigInfo {
     public static final String UPLOAD_URL = Config.getParam("upload_url", "upload_name");
 
     public static final String URL_FORMAT = "map-%s.%s";
+    
+    public static final String FULL_MAP_URL ="/upload/map-%s.DAT";
 
     public static final String DEFAULT_MAP = "map-0.DAT";
     public static final String URL_DEFAULT_MAP = UPLOAD_FOLDER + DEFAULT_MAP;

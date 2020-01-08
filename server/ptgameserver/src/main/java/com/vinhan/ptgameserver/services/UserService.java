@@ -134,6 +134,21 @@ public class UserService {
         }
         return result;
     }
+    
+    public boolean isNewUser(int userId){
+        boolean result = false;
+        try {
+            UserModel db = storeRepository.findById(UserModel.class, userId);
+            if (db != null) {
+                if(db.getUrlMap() == "/upload/map-0.DAT"){
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+        }
+        
+        return result;
+    }
 
     public boolean updateUrlMap(int userId, String url) {
         try {
